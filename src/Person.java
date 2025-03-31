@@ -1,29 +1,35 @@
 import java.lang.Comparable;
 
 public class Person implements Comparable<Person> {
-    private int area;
-    private int weight;
+    // Person is the objects to be packed into the bin(elevator)
+    private double area;
+    private double weight;
 
+    // Create a default person
     public Person() {
         area = 0;
         weight = 0;
     }
 
+    // Create a person with input area and weight
     public Person(int area, int weight) {
         this.area = area;
         this.weight = weight;
     }
 
-    public int getArea() {
+    // return the area occupied by the person
+    public double getArea() {
         return area;
     }
 
-    public int getWeight() {
+    // return the weight of the person
+    public double getWeight() {
         return weight;
     }
 
+    // comparison between two person
     @Override
     public int compareTo(Person P) {
-        return this.area - P.area;
+        return (int) this.area - (int) P.area;
     }
 }
