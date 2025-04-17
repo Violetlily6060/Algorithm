@@ -10,6 +10,11 @@ public class Elevator {
     public Elevator() {
     }
 
+    // Create a elevator with person, p inside
+    public Elevator(Person p) {
+        bin.add(p);
+    }
+
     // return the bin of the elevator
     public MyArrayList<Person> getBin() {
         return bin;

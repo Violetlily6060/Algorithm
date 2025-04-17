@@ -82,8 +82,7 @@ public class Algorithms {
             // Else open a new elevator to accept the person
             else {
                 current++;
-                elevators.add(new Elevator());
-                elevators.get(current).push(p);
+                elevators.add(new Elevator(p));
             }
         }
     }
@@ -93,10 +92,10 @@ public class Algorithms {
         // Add the first elevator into elevators
         elevators.add(new Elevator());
 
-        // The available elevators that can accept the person
-        MyArrayList<Integer> available = new MyArrayList<>();
-
         for (Person p : people) {
+            // The available elevators that can accept the person
+            MyArrayList<Integer> available = new MyArrayList<>();
+
             // Search for all available elevators
             for (int i = 0; i < elevators.size(); i++) {
                 if (elevators.get(i).canHandle(p)) {
@@ -106,8 +105,23 @@ public class Algorithms {
 
             // Open a new elevator to accept the person if no available elevator can
             if (available.isEmpty()) {
-                elevators.add(new Elevator());
-                elevators.get(elevators.size() - 1).push(p);
+                elevators.add(new Elevator(p));
+            }
+
+            // Else put the person into the elevator with the least space remaining
+            else {
+                // initial index of available elevators
+                int min = 0;
+
+                // Search for index of available elevators with the least space remaining
+                for (int i = 0; i < available.size(); i++) {
+                    if (elevators.get(available.get(i)).getCurrentLoad() > elevators.get(available.get(min))
+                            .getCurrentLoad()) {
+                        min = i;
+                    }
+                }
+
+                elevators.get(available.get(min)).push(p);
             }
         }
     }
