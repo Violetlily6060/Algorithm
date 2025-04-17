@@ -49,16 +49,25 @@ public class Elevator {
 
     // return and remove the last person to enter the elevator
     public Person pop() {
-        Person person = bin.get(getSize() - 1);
-        bin.remove(getSize() - 1);
-        currentLoad -= person.getWeight();
-        currentArea -= person.getArea();
-        return person;
+        try {
+            Person person = bin.get(getSize() - 1);
+            bin.remove(getSize() - 1);
+            currentLoad -= person.getWeight();
+            currentArea -= person.getArea();
+            return person;
+        } catch (Exception e) {
+            System.out.println("The Elevator is Empty");
+            return null;
+        }
     }
 
     // checking if the elevator is empty
     public boolean isEmpty() {
         return bin.isEmpty();
+    }
+
+    public boolean canHandle(Person p) {
+        return ((currentArea + p.getArea()) < FULL_AREA) && ((currentLoad + p.getWeight()) < FULL_LOAD);
     }
 
     // printing out the person in the elevator
