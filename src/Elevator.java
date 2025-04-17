@@ -1,13 +1,18 @@
 public class Elevator {
     // Elevator is used as the bin for the bin packing problem
     private MyArrayList<Person> bin = new MyArrayList<>();
-    public static final double FULL_LOAD = 900;
+    public static final double FULL_LOAD = 800.0;
     public static final double FULL_AREA = 2.25;
     private double currentLoad = 0;
     private double currentArea = 0;
 
     // Create a default elevator
     public Elevator() {
+    }
+
+    // return the bin of the elevator
+    public MyArrayList<Person> getBin() {
+        return bin;
     }
 
     // return number of people in the elevator
@@ -66,6 +71,7 @@ public class Elevator {
         return bin.isEmpty();
     }
 
+    // checking if the elevator can accept the person
     public boolean canHandle(Person p) {
         return ((currentArea + p.getArea()) < FULL_AREA) && ((currentLoad + p.getWeight()) < FULL_LOAD);
     }

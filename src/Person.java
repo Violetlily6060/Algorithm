@@ -12,7 +12,7 @@ public class Person implements Comparable<Person> {
     }
 
     // Create a person with input area and weight
-    public Person(int area, int weight) {
+    public Person(double area, double weight) {
         this.area = area;
         this.weight = weight;
     }
