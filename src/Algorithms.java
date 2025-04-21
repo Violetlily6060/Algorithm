@@ -21,6 +21,10 @@ public class Algorithms {
             case "Worst Fit":
                 bestFit(people);
                 break;
+            
+            case "First Fit":
+                firstFit(people);
+            break;
         }
     }
 
@@ -167,5 +171,29 @@ public class Algorithms {
                 elevators.get(available.get(max)).push(person);
             }
         }
-    }   
+    }
+    // First Fit Algorithm execution
+public void firstFit(MyArrayList<Person> people) {
+    // Add the first elevator into elevators
+    elevators.add(new Elevator());
+
+    for (Person p : people) {
+        boolean placed = false;
+
+        // Try placing the person into the first elevator that can handle them
+        for (int i = 0; i < elevators.size(); i++) {
+            if (elevators.get(i).canHandle(p)) {
+                elevators.get(i).push(p);
+                placed = true;
+                break;
+            }
+        }
+
+        // If no available elevator could handle the person, open a new one
+        if (!placed) {
+            elevators.add(new Elevator(p));
+        }
+    }
+}
+
 }   
