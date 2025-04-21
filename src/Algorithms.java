@@ -17,6 +17,10 @@ public class Algorithms {
             case "Best Fit":
                 bestFit(people);
                 break;
+
+            case "Worst Fit":
+                worstFit(people);
+                break;
         }
     }
 
@@ -122,6 +126,36 @@ public class Algorithms {
                 }
 
                 elevators.get(available.get(min)).push(p);
+            }
+        }
+    }
+    public void worstFit(MyArrayList<Person> people){
+        // The available elevators that can accept the person
+        elevators.add(new Elevator());
+
+        for(Person p: people){
+            //new elevator to accept the person
+            MyArrayList<Integer> available = new MyArrayList<>();
+
+            for(int i = 0; i<elevators.size(); i++){
+                if (elevators.get(i).canHandle(p)){
+                    available.add(i);
+                }
+            }
+            // Open a new elevator to accept the person if no available elevator can
+            if (available.isEmpty()) {
+                elevators.add(new Elevator(p));
+            }
+             // Else put the person into the elevator with the most space remaining
+            else {
+                 // initial index of available elevators
+                int max = 0;
+                for (int i = 0; i< available.size(); i++){
+                    if (elevators.get(available.get(i)).getCurrentLoad() < elevators.get(available.get(max)).getCurrentLoad()) {
+                        max = i;
+                    }    
+                }
+                elevators.get(available.get(max)).push(p);
             }
         }
     }
