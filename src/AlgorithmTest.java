@@ -49,7 +49,7 @@ public class AlgorithmTest {
             test.add(people.get(rand.nextInt(100)));
         }
 
-        String[] algorithms = new String[] { "Next Fit", "Best Fit" };
+        String[] algorithms = new String[] { "Next Fit", "Best Fit", "Worst Fit" };
 
         for (String algo : algorithms) {
             hline();
