@@ -1,22 +1,22 @@
-public class Elevator {
+public class ElevatorBin {
     // Elevator is used as the bin for the bin packing problem
-    private MyArrayList<Person> bin = new MyArrayList<>();
+    private ElevatorArrayList<Person> bin = new ElevatorArrayList<>();
     public static final double FULL_LOAD = 800.0;
     public static final double FULL_AREA = 2.25;
     private double currentLoad = 0;
     private double currentArea = 0;
 
     // Create a default elevator
-    public Elevator() {
+    public ElevatorBin() {
     }
 
     // Create a elevator with person, p inside
-    public Elevator(Person p) {
+    public ElevatorBin(Person p) {
         bin.add(p);
     }
 
     // return the bin of the elevator
-    public MyArrayList<Person> getBin() {
+    public ElevatorArrayList<Person> getBin() {
         return bin;
     }
 

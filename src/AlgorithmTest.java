@@ -6,7 +6,8 @@ import java.util.Random;
 
 public class AlgorithmTest {
     public static void main(String[] args) {
-        MyArrayList<Person> people = new MyArrayList<>();
+        // Create a queue of people from the file
+        QueueLinkedList<Person> people = new QueueLinkedList<>();
         DecimalFormat numberFormat = new DecimalFormat("#0.00");
 
         try {
@@ -20,6 +21,7 @@ public class AlgorithmTest {
                 people.add(new Person(pArea, pWeight));
             }
 
+            // Prints information about the dataset of people
             hline();
             System.out.println("Data Successfully Imported");
             bline();
@@ -42,22 +44,28 @@ public class AlgorithmTest {
             e.printStackTrace();
         }
 
-        MyArrayList<Person> test = new MyArrayList<>();
-        Random rand = new Random(42);
+        // Create a queue of random people
+        ElevatorQueue queueOfPeople = new ElevatorQueue();
+        Random rand = new Random(727);
 
-        for (int i = 0; i < 100; i++) {
-            test.add(people.get(rand.nextInt(100)));
+        // Randomly select 500,000 people from the list of 100 people
+        // A large number of people is used see the difference in performance
+        for (int i = 0; i < 500000; i++) {
+            queueOfPeople.enqueue(people.get(rand.nextInt(100)));
         }
 
-        String[] algorithms = new String[] { "Next Fit", "Best Fit" , "Worst Fit","First Fit"};
+        // Create an array of all the algorithms to be tested
+        String[] algorithms = new String[] { "Next Fit", "Best Fit", "Worst Fit", "First Fit" };
 
+        // Fitting all the algorithms and printing their performance
+        // NOTE: some algorithms may take a long time to run, so please wait patiently
         for (String algo : algorithms) {
             hline();
             System.out.println(algo + " Algorithm");
             bline();
-            Algorithms a = new Algorithms(algo, test);
+            Algorithms a = new Algorithms(algo, queueOfPeople);
             a.getResult();
-            a.getBins();
+            // a.getBins();
             bline();
             System.out.println("");
         }

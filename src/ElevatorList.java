@@ -1,4 +1,4 @@
-public interface MyList<E> extends java.lang.Iterable<E> {
+public interface ElevatorList<E> extends java.lang.Iterable<E> {
     /** Add a new element at the end of this list */
     public void add(E e);
 

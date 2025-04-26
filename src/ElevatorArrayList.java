@@ -1,13 +1,13 @@
-public class MyArrayList<E> extends MyAbstractList<E> {
+public class ElevatorArrayList<E> extends ElevatorAbstractList<E> {
     public static final int INITIAL_CAPACITY = 16;
     private E[] data = (E[]) new Object[INITIAL_CAPACITY];
 
     /** Create a default list */
-    public MyArrayList() {
+    public ElevatorArrayList() {
     }
 
     /** Create a list from an array of objects */
-    public MyArrayList(E[] objects) {
+    public ElevatorArrayList(E[] objects) {
         for (int i = 0; i < objects.length; i++)
             add(objects[i]); // Warning: don�t use super(objects)!
     }
@@ -162,7 +162,7 @@ public class MyArrayList<E> extends MyAbstractList<E> {
 
         @Override
         public void remove() {
-            MyArrayList.this.remove(current);
+            ElevatorArrayList.this.remove(current);
         }
     }
 }
