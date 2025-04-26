@@ -1,12 +1,12 @@
-public abstract class MyAbstractList<E> implements MyList<E> {
+public abstract class ElevatorAbstractList<E> implements ElevatorList<E> {
   protected int size = 0; // The size of the list
 
   /** Create a default list */
-  protected MyAbstractList() {
+  protected ElevatorAbstractList() {
   }
 
   /** Create a list from an array of objects */
-  protected MyAbstractList(E[] objects) {
+  protected ElevatorAbstractList(E[] objects) {
     for (int i = 0; i < objects.length; i++)
       add(objects[i]);
   }
