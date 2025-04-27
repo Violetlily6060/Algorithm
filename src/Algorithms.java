@@ -1,6 +1,8 @@
 import java.text.DecimalFormat;
 
 public class Algorithms {
+    private String algoName;
+
     // All the elevator used will be stored in the elevators
     private ElevatorArrayList<ElevatorBin> elevators = new ElevatorArrayList<>();
 
@@ -11,26 +13,37 @@ public class Algorithms {
     public Algorithms(String algo, ElevatorQueue queueOfPeople) {
         switch (algo) {
             case "Next Fit":
+                algoName = algo;
                 nextFit(queueOfPeople);
                 break;
 
             case "Best Fit":
+                algoName = algo;
                 bestFit(queueOfPeople);
                 break;
 
             case "Worst Fit":
+                algoName = algo;
                 worstFit(queueOfPeople);
                 break;
 
             case "First Fit":
+                algoName = algo;
                 firstFit(queueOfPeople);
+                break;
+
+            default:
+                System.out.println("Invalid algorithm name: " + algo);
+                System.out.println("Please use one of the following algorithms:");
+                System.out.println("Next Fit, Best Fit, Worst Fit, First Fit");
                 break;
         }
     }
 
     // Print out the statistic of the algorithm
     public void getResult() {
-        System.out.println("Elevators needed  : " + elevators.size());
+        System.out.println(algoName);
+        System.out.println("Elevators needed  = " + elevators.size());
 
         // Calculate area wasted by each elevator
         Double wastedArea = elevators.size() * 2.25;
@@ -38,7 +51,7 @@ public class Algorithms {
             wastedArea -= elevator.getCurrentArea();
         }
 
-        System.out.println("Area wasted (m^2) : " + numberFormat.format(wastedArea));
+        System.out.println("Area wasted (m^2) = " + numberFormat.format(wastedArea));
 
         // Calculate load wasted by each elevator
         Double wastedLoad = elevators.size() * 800.0;
@@ -46,7 +59,7 @@ public class Algorithms {
             wastedLoad -= elevator.getCurrentLoad();
         }
 
-        System.out.println("Load wasted (Kg)  : " + numberFormat.format(wastedLoad));
+        System.out.println("Load wasted (Kg)  = " + numberFormat.format(wastedLoad));
         System.out.println("");
     }
 
@@ -55,11 +68,14 @@ public class Algorithms {
         int count = 1;
 
         for (ElevatorBin elevator : elevators) {
-            System.out.println("Elevator " + count + " (n=" + elevator.getSize() + ", Area="
-                    + numberFormat.format(elevator.getCurrentArea()) + ", Load=" +
+            System.out.println("Elevator " + count + " (Number of People= " + elevator.getSize() + ", Area Occupied= "
+                    + numberFormat.format(elevator.getCurrentArea()) + ", Total Load= " +
                     numberFormat.format(elevator.getCurrentLoad()) + ")");
 
+            System.out.println("Detail of Each Person");
+            System.out.println("=====================");
             System.out.println("Area  Weight");
+            System.out.println("---------------------");
 
             ElevatorArrayList<Person> bin = elevator.getBin();
 
@@ -67,6 +83,7 @@ public class Algorithms {
                 System.out.println(numberFormat.format(p.getArea()) + "  " + numberFormat.format(p.getWeight()));
             }
 
+            System.out.println("---------------------");
             System.out.println("");
             count++;
         }

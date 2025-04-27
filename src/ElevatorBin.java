@@ -12,7 +12,7 @@ public class ElevatorBin {
 
     // Create a elevator with person, p inside
     public ElevatorBin(Person p) {
-        bin.add(p);
+        push(p);
     }
 
     // return the bin of the elevator

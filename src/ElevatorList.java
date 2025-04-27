@@ -51,4 +51,7 @@ public interface ElevatorList<E> extends java.lang.Iterable<E> {
 
     /** Return the number of elements in this list */
     public int size();
+
+    /** Load sample elements from a file into the List */
+    public void load(String fileName);
 }

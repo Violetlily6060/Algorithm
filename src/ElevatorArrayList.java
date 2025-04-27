@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class ElevatorArrayList<E> extends ElevatorAbstractList<E> {
     public static final int INITIAL_CAPACITY = 16;
     private E[] data = (E[]) new Object[INITIAL_CAPACITY];
@@ -163,6 +167,28 @@ public class ElevatorArrayList<E> extends ElevatorAbstractList<E> {
         @Override
         public void remove() {
             ElevatorArrayList.this.remove(current);
+        }
+    }
+
+    @Override // Loads data from a file into the LinkedList
+    public void load(String fileName) {
+        try {
+            File file = new File(fileName);
+            Scanner fileReader = new Scanner(file);
+
+            while (fileReader.hasNextLine()) {
+                double pArea = fileReader.nextFloat();
+                double pWeight = fileReader.nextFloat();
+
+                add((E) new Person(pArea, pWeight));
+            }
+
+            System.out.println("Data is loaded from " + fileName + " successfully.\n");
+            fileReader.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Failed to find People.txt");
+            e.printStackTrace();
         }
     }
 }

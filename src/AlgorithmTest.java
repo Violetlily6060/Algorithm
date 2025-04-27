@@ -1,83 +1,123 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.text.DecimalFormat;
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
 public class AlgorithmTest {
     public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
         // Create a queue of people from the file
         QueueLinkedList<Person> people = new QueueLinkedList<>();
-        DecimalFormat numberFormat = new DecimalFormat("#0.00");
 
-        try {
-            File file = new File("People.txt");
-            Scanner fileReader = new Scanner(file);
+        // Load the unique people from People.txt
+        people.load("People.txt");
 
-            while (fileReader.hasNextLine()) {
-                double pArea = fileReader.nextFloat();
-                double pWeight = fileReader.nextFloat();
+        // Get the number of people from user
+        System.out.println("How many people would you like to pack fit into the elevators?");
+        System.out.print("Amount: ");
 
-                people.add(new Person(pArea, pWeight));
+        int numOfPeople = 0;
+        while (true) {
+            if (input.hasNextInt()) {
+                numOfPeople = input.nextInt();
+                if (numOfPeople > 0) {
+                    System.out.println("");
+                    if (numOfPeople >= 200000) {
+                        System.out.println("You have entered a large number");
+                        System.out.println("The algorithms may take a long time to run, please wait patiently\n");
+                    }
+                    break;
+                } else {
+                    System.out.print("Please enter a number larger than 0: ");
+                }
+            } else {
+                System.out.print("Please enter a valid number: ");
+                input.next();
             }
-
-            // Prints information about the dataset of people
-            hline();
-            System.out.println("Data Successfully Imported");
-            bline();
-            System.out.println("There are " + people.size() + " unique records in people");
-            System.out.println("");
-            System.out.println("Range of Standing Area (m^2) = (" + numberFormat.format(people.get(0).getArea()) + ", "
-                    + numberFormat.format(people.get(99).getArea()) + ")");
-            System.out.println("Maximum Elevator Area (m^2) = 2.25");
-            System.out.println("");
-            System.out.println("Range of Body Weight (Kg) = (" + numberFormat.format(people.get(0).getWeight()) + ", "
-                    + numberFormat.format(people.get(99).getWeight()) + ")");
-            System.out.println("Maximum Elevator Load (Kg) = 800");
-            bline();
-            System.out.println("");
-
-            fileReader.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Failed to find People.txt");
-            e.printStackTrace();
         }
 
-        // Create a queue of random people
+        // Create a queue of random people with the size of numOfPeople
         ElevatorQueue queueOfPeople = new ElevatorQueue();
         Random rand = new Random(727);
-
-        // Randomly select 500,000 people from the list of 100 people
-        // A large number of people is used see the difference in performance
-        for (int i = 0; i < 500000; i++) {
+        for (int i = 0; i < numOfPeople; i++) {
             queueOfPeople.enqueue(people.get(rand.nextInt(100)));
         }
 
-        // Create an array of all the algorithms to be tested
-        String[] algorithms = new String[] { "Next Fit", "Best Fit", "Worst Fit", "First Fit" };
+        // Get the algorithm to be tested from user
+        System.out.println("Please select the algorithm to be tested");
+        System.out.println(
+                "1. Next Fit\n2. Best Fit\n3. Worst Fit\n4. First Fit\n5. All Algorithms");
+        System.out.print("Algorithm (1-5): ");
 
-        // Fitting all the algorithms and printing their performance
-        // NOTE: some algorithms may take a long time to run, so please wait patiently
-        for (String algo : algorithms) {
-            hline();
-            System.out.println(algo + " Algorithm");
-            bline();
-            Algorithms a = new Algorithms(algo, queueOfPeople);
-            a.getResult();
-            // a.getBins();
-            bline();
-            System.out.println("");
+        int algoChoice = 0;
+        while (true) {
+            if (input.hasNextInt()) {
+                algoChoice = input.nextInt();
+                if (algoChoice >= 1 && algoChoice <= 5) {
+                    System.out.println("");
+                    break;
+                } else {
+                    System.out.print("Please enter a number between 1 and 5: ");
+                }
+            } else {
+                System.out.print("Please enter a valid number: ");
+                input.next();
+            }
         }
-    }
 
-    // Prints header line
-    public static void hline() {
-        System.out.println("===========================================");
-    }
+        // Executing the selected algorithm
+        Algorithms algoSelected = null;
 
-    // Prints body line
-    public static void bline() {
-        System.out.println("-------------------------------------------");
+        switch (algoChoice) {
+            case 1:
+                algoSelected = new Algorithms("Next Fit", queueOfPeople);
+                algoSelected.getResult();
+                break;
+
+            case 2:
+                algoSelected = new Algorithms("Best Fit", queueOfPeople);
+                algoSelected.getResult();
+                break;
+
+            case 3:
+                algoSelected = new Algorithms("Worst Fit", queueOfPeople);
+                algoSelected.getResult();
+                break;
+
+            case 4:
+                algoSelected = new Algorithms("First Fit", queueOfPeople);
+                algoSelected.getResult();
+                break;
+
+            case 5:
+                for (String algo : new String[] { "Next Fit", "Best Fit", "Worst Fit", "First Fit" }) {
+                    Algorithms algorithm = new Algorithms(algo, queueOfPeople);
+                    algorithm.getResult();
+                }
+        }
+
+        // Ask if the user wants to see the details of each elevator
+        if (algoChoice != 5) {
+            System.out.println("Would you like to see the details of each elevator bin?");
+            System.out.println("Note: Not recommended if large number of elevators is used");
+            System.out.print("(y/n): ");
+
+            String choice = "";
+            while (true) {
+                choice = input.next().toLowerCase();
+                if (choice.equals("y") || choice.equals("n")) {
+                    System.out.println("");
+                    break;
+                } else {
+                    System.out.print("Please enter y or n: ");
+                }
+            }
+
+            if (choice.equals("y")) {
+                algoSelected.getBins();
+            }
+        }
+
+        System.out.println("Thank you for using the Elevator Packing Algorithm Tester!");
+        input.close();
     }
 }

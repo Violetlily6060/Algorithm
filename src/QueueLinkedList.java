@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class QueueLinkedList<E> extends ElevatorAbstractList<E> {
   private Node<E> head, tail;
 
@@ -278,6 +282,28 @@ public class QueueLinkedList<E> extends ElevatorAbstractList<E> {
 
     public Node(E element) {
       this.element = element;
+    }
+  }
+
+  @Override // Loads data from a file into the LinkedList
+  public void load(String fileName) {
+    try {
+      File file = new File(fileName);
+      Scanner fileReader = new Scanner(file);
+
+      while (fileReader.hasNextLine()) {
+        double pArea = fileReader.nextFloat();
+        double pWeight = fileReader.nextFloat();
+
+        add((E) new Person(pArea, pWeight));
+      }
+
+      System.out.println("Data is loaded from " + fileName + " successfully.\n");
+      fileReader.close();
+
+    } catch (FileNotFoundException e) {
+      System.out.println("Failed to find People.txt");
+      e.printStackTrace();
     }
   }
 }
