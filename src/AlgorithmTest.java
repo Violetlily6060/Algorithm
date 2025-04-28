@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class AlgorithmTest {
     public static void main(String[] args) {
+        long startTime = 0;
         Scanner input = new Scanner(System.in);
         Random rand = new Random(727);
         boolean running = true;
@@ -13,6 +14,7 @@ public class AlgorithmTest {
         // Load the unique people from People.txt
         people.load("People.txt");
 
+        // Loop until the user decides to exit
         while (running) {
             // Get the number of people from user
             System.out.println("How many people would you like to pack fit into the elevators?");
@@ -48,7 +50,7 @@ public class AlgorithmTest {
             // Get the algorithm to be tested from user
             System.out.println("Please select the algorithm to be tested");
             System.out.println(
-                    "1. Next Fit\n2. Best Fit\n3. Worst Fit\n4. First Fit\n5. All Algorithms");
+                    "1. First Fit\n2. Best Fit\n3. Next Fit\n4. Worst Fit\n5. All Algorithms");
             System.out.print("Algorithm (1-5): ");
 
             int algoChoice = 0;
@@ -72,29 +74,39 @@ public class AlgorithmTest {
 
             switch (algoChoice) {
                 case 1:
-                    algoSelected = new Algorithms("Next Fit", queueOfPeople);
+                    startTime = System.currentTimeMillis();
+                    algoSelected = new Algorithms("First Fit", queueOfPeople);
                     algoSelected.getResult();
+                    printRunTime(startTime);
                     break;
 
                 case 2:
+                    startTime = System.currentTimeMillis();
                     algoSelected = new Algorithms("Best Fit", queueOfPeople);
                     algoSelected.getResult();
+                    printRunTime(startTime);
                     break;
 
                 case 3:
-                    algoSelected = new Algorithms("Worst Fit", queueOfPeople);
+                    startTime = System.currentTimeMillis();
+                    algoSelected = new Algorithms("Next Fit", queueOfPeople);
                     algoSelected.getResult();
+                    printRunTime(startTime);
                     break;
 
                 case 4:
-                    algoSelected = new Algorithms("First Fit", queueOfPeople);
+                    startTime = System.currentTimeMillis();
+                    algoSelected = new Algorithms("Worst Fit", queueOfPeople);
                     algoSelected.getResult();
+                    printRunTime(startTime);
                     break;
 
                 case 5:
-                    for (String algo : new String[] { "Next Fit", "Best Fit", "Worst Fit", "First Fit" }) {
+                    for (String algo : new String[] { "First Fit", "Best Fit", "Next Fit", "Worst Fit" }) {
+                        startTime = System.currentTimeMillis();
                         Algorithms algorithm = new Algorithms(algo, queueOfPeople);
                         algorithm.getResult();
+                        printRunTime(startTime);
                     }
             }
 
@@ -120,6 +132,7 @@ public class AlgorithmTest {
                 }
             }
 
+            // Ask if the user wants to test another algorithm
             System.out.println("Would you like to test another algorithm?");
             System.out.print("(y/n): ");
 
@@ -142,7 +155,12 @@ public class AlgorithmTest {
             }
         }
 
+        // Exit the program
         System.out.println("Thank you for using the Elevator Packing Algorithm Tester!");
         input.close();
+    }
+
+    public static void printRunTime(long startTime) {
+        System.out.println("Time taken (ms): " + (System.currentTimeMillis() - startTime) + "\n");
     }
 }

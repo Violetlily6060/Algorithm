@@ -11,25 +11,23 @@ public class Algorithms {
 
     // Constructor for specified algorithm
     public Algorithms(String algo, ElevatorQueue queueOfPeople) {
+        algoName = algo;
+
         switch (algo) {
-            case "Next Fit":
-                algoName = algo;
-                nextFit(queueOfPeople);
+            case "First Fit":
+                firstFit(queueOfPeople);
                 break;
 
             case "Best Fit":
-                algoName = algo;
                 bestFit(queueOfPeople);
                 break;
 
-            case "Worst Fit":
-                algoName = algo;
-                worstFit(queueOfPeople);
+            case "Next Fit":
+                nextFit(queueOfPeople);
                 break;
 
-            case "First Fit":
-                algoName = algo;
-                firstFit(queueOfPeople);
+            case "Worst Fit":
+                worstFit(queueOfPeople);
                 break;
 
             default:
@@ -40,11 +38,14 @@ public class Algorithms {
         }
     }
 
-    // Print out the statistic of the algorithm
+    // Print out the number of elevators used by the algorithm
     public void getResult() {
         System.out.println(algoName);
-        System.out.println("Elevators needed  = " + elevators.size());
+        System.out.println("Elevators needed = " + elevators.size());
+    }
 
+    // Print out the statistic of the algorithm
+    public void getBins() {
         // Calculate area wasted by each elevator
         Double wastedArea = elevators.size() * 2.25;
         for (ElevatorBin elevator : elevators) {
@@ -61,10 +62,8 @@ public class Algorithms {
 
         System.out.println("Load wasted (Kg)  = " + numberFormat.format(wastedLoad));
         System.out.println("");
-    }
 
-    // Print out the detail of each elevator in elevators
-    public void getBins() {
+        // Print out the detail of each elevator in elevators
         int count = 1;
 
         for (ElevatorBin elevator : elevators) {
@@ -89,24 +88,25 @@ public class Algorithms {
         }
     }
 
-    // Next Fit Algorithm execution
-    public void nextFit(ElevatorQueue people) {
+    // First Fit Algorithm execution
+    public void firstFit(ElevatorQueue people) {
         // Add the first elevator into elevators
         elevators.add(new ElevatorBin());
 
-        // Index of the currently used elevator
-        int current = 0;
-
         for (Person p : people) {
+            boolean placed = false;
 
-            // If the elevator can accept the person, add the person
-            if (elevators.get(current).canHandle(p)) {
-                elevators.get(current).push(p);
+            // Try placing the person into the first elevator that can handle them
+            for (int i = 0; i < elevators.size(); i++) {
+                if (elevators.get(i).canHandle(p)) {
+                    elevators.get(i).push(p);
+                    placed = true;
+                    break;
+                }
             }
 
-            // Else open a new elevator to accept the person
-            else {
-                current++;
+            // If no available elevator could handle the person, open a new one
+            if (!placed) {
                 elevators.add(new ElevatorBin(p));
             }
         }
@@ -151,6 +151,29 @@ public class Algorithms {
         }
     }
 
+    // Next Fit Algorithm execution
+    public void nextFit(ElevatorQueue people) {
+        // Add the first elevator into elevators
+        elevators.add(new ElevatorBin());
+
+        // Index of the currently used elevator
+        int current = 0;
+
+        for (Person p : people) {
+
+            // If the elevator can accept the person, add the person
+            if (elevators.get(current).canHandle(p)) {
+                elevators.get(current).push(p);
+            }
+
+            // Else open a new elevator to accept the person
+            else {
+                current++;
+                elevators.add(new ElevatorBin(p));
+            }
+        }
+    }
+
     // Worst Fit Algorithm execution
     public void worstFit(ElevatorQueue people) {
         // Add the first elevator into elevators
@@ -186,30 +209,6 @@ public class Algorithms {
                 }
 
                 elevators.get(available.get(max)).push(p);
-            }
-        }
-    }
-
-    // First Fit Algorithm execution
-    public void firstFit(ElevatorQueue people) {
-        // Add the first elevator into elevators
-        elevators.add(new ElevatorBin());
-
-        for (Person p : people) {
-            boolean placed = false;
-
-            // Try placing the person into the first elevator that can handle them
-            for (int i = 0; i < elevators.size(); i++) {
-                if (elevators.get(i).canHandle(p)) {
-                    elevators.get(i).push(p);
-                    placed = true;
-                    break;
-                }
-            }
-
-            // If no available elevator could handle the person, open a new one
-            if (!placed) {
-                elevators.add(new ElevatorBin(p));
             }
         }
     }
