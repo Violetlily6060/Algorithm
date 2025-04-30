@@ -272,7 +272,33 @@ public class QueueLinkedList<E> extends ElevatorAbstractList<E> {
 
     @Override
     public void remove() {
-      System.out.println("Implementation left as an exercise");
+      if (current == null) {
+        throw new IllegalStateException("Next method has not been called or the element has already been removed.");
+      }
+
+      Node<E> previous = null;
+      Node<E> temp = head;
+
+      // Traverse the list to find the node before the current node
+      while (temp != null && temp != current) {
+        previous = temp;
+        temp = temp.next;
+      }
+
+      if (previous == null) { // Removing the head node
+        head = head.next;
+        if (head == null) {
+          tail = null; // List is now empty
+        }
+      } else {
+        previous.next = current.next;
+        if (current == tail) {
+          tail = previous; // Update tail if last node is removed
+        }
+      }
+
+      size--;
+      current = null;
     }
   }
 

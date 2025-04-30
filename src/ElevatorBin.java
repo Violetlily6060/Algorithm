@@ -41,20 +41,20 @@ public class ElevatorBin {
     }
 
     // add a new person to enter the elevator
-    public void push(Person person) {
-        if ((currentLoad + person.getWeight()) > FULL_LOAD) {
+    public void push(Person p) {
+        if ((currentLoad + p.getWeight()) > FULL_LOAD) {
             System.out.println("Elevator Load Limit Exceeded");
             return;
         }
 
-        if ((currentArea + person.getArea()) > FULL_AREA) {
+        if ((currentArea + p.getArea()) > FULL_AREA) {
             System.out.println("Elevator Area Limit Exceeded");
             return;
         }
 
-        bin.add(person);
-        currentLoad += person.getWeight();
-        currentArea += person.getArea();
+        bin.add(p);
+        currentLoad += p.getWeight();
+        currentArea += p.getArea();
     }
 
     // return and remove the last person to enter the elevator
