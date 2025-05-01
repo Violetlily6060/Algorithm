@@ -77,28 +77,28 @@ public class AlgorithmTest {
                     startTime = System.currentTimeMillis();
                     algoSelected = new Algorithms("First Fit", queueOfPeople);
                     algoSelected.getResult();
-                    printRunTime(startTime);
+                    printRuntime(startTime);
                     break;
 
                 case 2:
                     startTime = System.currentTimeMillis();
                     algoSelected = new Algorithms("Best Fit", queueOfPeople);
                     algoSelected.getResult();
-                    printRunTime(startTime);
+                    printRuntime(startTime);
                     break;
 
                 case 3:
                     startTime = System.currentTimeMillis();
                     algoSelected = new Algorithms("Next Fit", queueOfPeople);
                     algoSelected.getResult();
-                    printRunTime(startTime);
+                    printRuntime(startTime);
                     break;
 
                 case 4:
                     startTime = System.currentTimeMillis();
                     algoSelected = new Algorithms("Worst Fit", queueOfPeople);
                     algoSelected.getResult();
-                    printRunTime(startTime);
+                    printRuntime(startTime);
                     break;
 
                 case 5:
@@ -106,7 +106,7 @@ public class AlgorithmTest {
                         startTime = System.currentTimeMillis();
                         Algorithms algorithm = new Algorithms(algo, queueOfPeople);
                         algorithm.getResult();
-                        printRunTime(startTime);
+                        printRuntime(startTime);
                     }
             }
 
@@ -114,7 +114,7 @@ public class AlgorithmTest {
             if (algoChoice != 5) {
                 System.out.println("Would you like to see the details of each elevator bin?");
                 System.out.println("Note: Not recommended if large number of elevators is used");
-                System.out.print("(y/n): ");
+                System.out.print("Show bins (y/n): ");
 
                 String choice = "";
                 while (true) {
@@ -134,7 +134,7 @@ public class AlgorithmTest {
 
             // Ask if the user wants to test another algorithm
             System.out.println("Would you like to test another algorithm?");
-            System.out.print("(y/n): ");
+            System.out.print("Continue (y/n): ");
 
             String continueChoice = "";
             while (true) {
@@ -160,7 +160,7 @@ public class AlgorithmTest {
         input.close();
     }
 
-    public static void printRunTime(long startTime) {
+    public static void printRuntime(long startTime) {
         System.out.println("Time taken (ms): " + (System.currentTimeMillis() - startTime) + "\n");
     }
 }

@@ -1,8 +1,5 @@
-import java.util.Iterator;
-
 public class ElevatorQueue implements Iterable<Person> {
     private QueueLinkedList<Person> queue = new QueueLinkedList<>();
-    private int size = 0;
 
     // Create a default elevator queue
     public ElevatorQueue() {
@@ -14,9 +11,8 @@ public class ElevatorQueue implements Iterable<Person> {
     }
 
     // add a person to the queue
-    public void enqueue(Person person) {
-        queue.addLast(person);
-        size++;
+    public void enqueue(Person p) {
+        queue.addLast(p);
     }
 
     // remove and return the first person in the queue
@@ -28,19 +24,18 @@ public class ElevatorQueue implements Iterable<Person> {
 
         Person person = queue.getFirst();
         queue.removeFirst();
-        size--;
 
         return person;
     }
 
     // return number of people in the elevator queue
     public int getSize() {
-        return size;
+        return queue.size();
     }
 
     // return true if the elevator queue is empty
     public boolean isEmpty() {
-        return size == 0;
+        return queue.size() == 0;
     }
 
     @Override
@@ -49,7 +44,7 @@ public class ElevatorQueue implements Iterable<Person> {
     }
 
     @Override
-    public Iterator<Person> iterator() {
+    public java.util.Iterator<Person> iterator() {
         return queue.iterator();
     }
 }
