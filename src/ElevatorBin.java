@@ -1,17 +1,28 @@
 public class ElevatorBin {
     // Elevator is used as the bin for the bin packing problem
     private ElevatorArrayList<Person> bin = new ElevatorArrayList<>();
-    public static final double FULL_LOAD = 800.0;
-    public static final double FULL_AREA = 2.25;
+    private double fullLoad = 0;
+    private double fullArea = 0;
     private double currentLoad = 0;
     private double currentArea = 0;
 
     // Create a default elevator
     public ElevatorBin() {
+        // Default values of the elevator
+        fullLoad = 800;
+        fullArea = 2.25;
+    }
+
+    public ElevatorBin(double load, double area) {
+        // Create a elevator with the given load and area
+        fullLoad = load;
+        fullArea = area;
     }
 
     // Create a elevator with person, p inside
-    public ElevatorBin(Person p) {
+    public ElevatorBin(double load, double area, Person p) {
+        fullLoad = load;
+        fullArea = area;
         push(p);
     }
 
@@ -42,12 +53,12 @@ public class ElevatorBin {
 
     // add a new person to enter the elevator
     public void push(Person p) {
-        if ((currentLoad + p.getWeight()) > FULL_LOAD) {
+        if ((currentLoad + p.getWeight()) > fullLoad) {
             System.out.println("Elevator Load Limit Exceeded");
             return;
         }
 
-        if ((currentArea + p.getArea()) > FULL_AREA) {
+        if ((currentArea + p.getArea()) > fullArea) {
             System.out.println("Elevator Area Limit Exceeded");
             return;
         }
@@ -78,7 +89,7 @@ public class ElevatorBin {
 
     // checking if the elevator can accept the person
     public boolean canHandle(Person p) {
-        return ((currentArea + p.getArea()) < FULL_AREA) && ((currentLoad + p.getWeight()) < FULL_LOAD);
+        return ((currentArea + p.getArea()) < fullArea) && ((currentLoad + p.getWeight()) < fullLoad);
     }
 
     // printing out the person in the elevator

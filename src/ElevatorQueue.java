@@ -47,4 +47,9 @@ public class ElevatorQueue implements Iterable<Person> {
     public java.util.Iterator<Person> iterator() {
         return queue.iterator();
     }
+
+    // Loads data from a file into the queue
+    public void load(String fileName) {
+        queue.load(fileName);
+    }
 }
