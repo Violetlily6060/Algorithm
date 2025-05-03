@@ -6,28 +6,37 @@ public class Algorithms {
     // All the elevator used will be stored in the elevators
     private ElevatorArrayList<ElevatorBin> elevators = new ElevatorArrayList<>();
 
+    // Number of people that cannot fit into any elevator
+    private int cannotFit = 0;
+
+    // Specification of the elevators
+    double maxLoad = 0;
+    double maxArea = 0;
+
     // Number format of the result
     DecimalFormat numberFormat = new DecimalFormat("#0.00");
 
     // Constructor for specified algorithm
-    public Algorithms(String algo, ElevatorQueue queueOfPeople) {
+    public Algorithms(String algo, double maxLoad, double maxArea, ElevatorQueue people) {
         algoName = algo;
+        this.maxLoad = maxLoad;
+        this.maxArea = maxArea;
 
         switch (algo) {
             case "First Fit":
-                firstFit(queueOfPeople);
+                firstFit(people);
                 break;
 
             case "Best Fit":
-                bestFit(queueOfPeople);
+                bestFit(people);
                 break;
 
             case "Next Fit":
-                nextFit(queueOfPeople);
+                nextFit(people);
                 break;
 
             case "Worst Fit":
-                worstFit(queueOfPeople);
+                worstFit(people);
                 break;
 
             default:
@@ -42,6 +51,10 @@ public class Algorithms {
     public void getResult() {
         System.out.println(algoName);
         System.out.println("Elevators needed = " + elevators.size());
+
+        if (cannotFit > 0) {
+            System.out.println("Number of people that cannot fit into any elevator = " + cannotFit);
+        }
     }
 
     // Print out the statistic of the algorithm
@@ -60,7 +73,7 @@ public class Algorithms {
             wastedLoad -= elevator.getCurrentLoad();
         }
 
-        System.out.println("Load wasted (Kg)  = " + numberFormat.format(wastedLoad));
+        System.out.println("Load wasted (kg)  = " + numberFormat.format(wastedLoad));
         System.out.println("");
 
         // Print out the detail of each elevator in elevators
@@ -91,9 +104,15 @@ public class Algorithms {
     // First Fit Algorithm execution
     public void firstFit(ElevatorQueue people) {
         // Add the first elevator into elevators
-        elevators.add(new ElevatorBin());
+        elevators.add(new ElevatorBin(maxLoad, maxArea));
 
         for (Person p : people) {
+            // If the person is too big for the elevator, increment cannotFit and continue
+            if (p.getArea() > maxArea || p.getWeight() > maxLoad) {
+                cannotFit++;
+                continue;
+            }
+
             boolean placed = false;
 
             // Try placing the person into the first elevator that can handle them
@@ -107,7 +126,7 @@ public class Algorithms {
 
             // If no available elevator could handle the person, open a new one
             if (!placed) {
-                elevators.add(new ElevatorBin(p));
+                elevators.add(new ElevatorBin(maxLoad, maxArea, p));
             }
         }
     }
@@ -115,9 +134,15 @@ public class Algorithms {
     // Best Fit Algorithm execution
     public void bestFit(ElevatorQueue people) {
         // Add the first elevator into elevators
-        elevators.add(new ElevatorBin());
+        elevators.add(new ElevatorBin(maxLoad, maxArea));
 
         for (Person p : people) {
+            // If the person is too big for the elevator, increment cannotFit and continue
+            if (p.getArea() > maxArea || p.getWeight() > maxLoad) {
+                cannotFit++;
+                continue;
+            }
+
             // The available elevators that can accept the person
             ElevatorArrayList<Integer> available = new ElevatorArrayList<>();
 
@@ -130,7 +155,7 @@ public class Algorithms {
 
             // Open a new elevator to accept the person if no available elevator can
             if (available.isEmpty()) {
-                elevators.add(new ElevatorBin(p));
+                elevators.add(new ElevatorBin(maxLoad, maxArea, p));
             }
 
             // Else put the person into the elevator with the least space remaining
@@ -154,12 +179,17 @@ public class Algorithms {
     // Next Fit Algorithm execution
     public void nextFit(ElevatorQueue people) {
         // Add the first elevator into elevators
-        elevators.add(new ElevatorBin());
+        elevators.add(new ElevatorBin(maxLoad, maxArea));
 
         // Index of the currently used elevator
         int current = 0;
 
         for (Person p : people) {
+            // If the person is too big for the elevator, increment cannotFit and continue
+            if (p.getArea() > maxArea || p.getWeight() > maxLoad) {
+                cannotFit++;
+                continue;
+            }
 
             // If the elevator can accept the person, add the person
             if (elevators.get(current).canHandle(p)) {
@@ -169,7 +199,7 @@ public class Algorithms {
             // Else open a new elevator to accept the person
             else {
                 current++;
-                elevators.add(new ElevatorBin(p));
+                elevators.add(new ElevatorBin(maxLoad, maxArea, p));
             }
         }
     }
@@ -177,9 +207,15 @@ public class Algorithms {
     // Worst Fit Algorithm execution
     public void worstFit(ElevatorQueue people) {
         // Add the first elevator into elevators
-        elevators.add(new ElevatorBin());
+        elevators.add(new ElevatorBin(maxLoad, maxArea));
 
         for (Person p : people) {
+            // If the person is too big for the elevator, increment cannotFit and continue
+            if (p.getArea() > maxArea || p.getWeight() > maxLoad) {
+                cannotFit++;
+                continue;
+            }
+
             // The available elevators that can accept the person
             ElevatorArrayList<Integer> available = new ElevatorArrayList<>();
 
@@ -192,7 +228,7 @@ public class Algorithms {
 
             // Open a new elevator to accept the person if no available elevator can
             if (available.isEmpty()) {
-                elevators.add(new ElevatorBin(p));
+                elevators.add(new ElevatorBin(maxLoad, maxArea, p));
             }
 
             // Else put the person into the elevator with the most space remaining
