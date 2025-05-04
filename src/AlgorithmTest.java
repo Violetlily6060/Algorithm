@@ -11,7 +11,7 @@ public class AlgorithmTest {
             // Clear console
             System.out.print("\033[H\033[2J");
             System.out.flush();
-            
+
             // Create a queue of people from the file
             ElevatorQueue people = new ElevatorQueue();
 
@@ -30,12 +30,10 @@ public class AlgorithmTest {
                     elevatorCapacity = Double.parseDouble(input.nextLine());
                     if (elevatorCapacity > 0) {
                         break;
-                    }
-                    else {
+                    } else {
                         System.out.print("Please enter a positive number: ");
                     }
-                }
-                catch (NumberFormatException e)  {
+                } catch (NumberFormatException e) {
                     System.out.print("Please enter a valid number: ");
                 }
             }
@@ -49,12 +47,10 @@ public class AlgorithmTest {
                     if (elevatorArea > 0) {
                         System.out.println("");
                         break;
-                    }
-                    else {
+                    } else {
                         System.out.print("Please enter a positive number: ");
                     }
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     System.out.print("Please enter a valid number: ");
                 }
             }
@@ -71,12 +67,10 @@ public class AlgorithmTest {
                     if (algoChoice >= 1 && algoChoice <= 5) {
                         System.out.println("");
                         break;
-                    }
-                    else {
+                    } else {
                         System.out.print("Please enter a number between 1 and 5: ");
                     }
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     System.out.print("Please enter a valid number: ");
                 }
             }
