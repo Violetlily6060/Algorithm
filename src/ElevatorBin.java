@@ -10,7 +10,7 @@ public class ElevatorBin {
     public ElevatorBin() {
         // Default values of the elevator
         fullLoad = 800;
-        fullArea = 2.25;
+        fullArea = 2;
     }
 
     public ElevatorBin(double load, double area) {
@@ -26,32 +26,32 @@ public class ElevatorBin {
         push(p);
     }
 
-    // return the bin of the elevator
+    // Return the bin of the elevator
     public ElevatorArrayList<Person> getBin() {
         return bin;
     }
 
-    // return number of people in the elevator
+    // Return number of people in the elevator
     public int getSize() {
         return bin.size();
     }
 
-    // return the current load of people in the elevator
+    // Return the current load of people in the elevator
     public double getCurrentLoad() {
         return currentLoad;
     }
 
-    // return the current occupied area of the elevator
+    // Return the current occupied area of the elevator
     public double getCurrentArea() {
         return currentArea;
     }
 
-    // return the last person to enter the elevator
+    // Return the last person to enter the elevator
     public Person peek() {
         return bin.get(getSize() - 1);
     }
 
-    // add a new person to enter the elevator
+    // Add a new person to enter the elevator
     public void push(Person p) {
         if ((currentLoad + p.getWeight()) > fullLoad) {
             System.out.println("Elevator Load Limit Exceeded");
@@ -68,7 +68,7 @@ public class ElevatorBin {
         currentArea += p.getArea();
     }
 
-    // return and remove the last person to enter the elevator
+    // Return and remove the last person to enter the elevator
     public Person pop() {
         try {
             Person person = bin.get(getSize() - 1);
@@ -82,17 +82,17 @@ public class ElevatorBin {
         }
     }
 
-    // checking if the elevator is empty
+    // Checking if the elevator is empty
     public boolean isEmpty() {
         return bin.isEmpty();
     }
 
-    // checking if the elevator can accept the person
+    // Checking if the elevator can accept the person
     public boolean canHandle(Person p) {
         return ((currentArea + p.getArea()) < fullArea) && ((currentLoad + p.getWeight()) < fullLoad);
     }
 
-    // printing out the person in the elevator
+    // Printing out the person in the elevator
     @Override
     public String toString() {
         return "Elevator: " + bin.toString();

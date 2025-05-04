@@ -3,10 +3,10 @@ import java.text.DecimalFormat;
 public class Algorithms {
     private String algoName;
 
-    // All the elevator used will be stored in the elevators
+    // List of elevators used
     private ElevatorArrayList<ElevatorBin> elevators = new ElevatorArrayList<>();
 
-    // Number of people that cannot fit into any elevator
+    // Number of people who cannot fit in elevator
     private int cannotFit = 0;
 
     // Specification of the elevators
@@ -50,7 +50,7 @@ public class Algorithms {
     // Print out the number of elevators used by the algorithm
     public void getResult() {
         System.out.println(algoName);
-        System.out.println("Elevators needed = " + elevators.size());
+        System.out.println("Elevators used = " + elevators.size());
 
         if (cannotFit > 0) {
             System.out.println("Number of people that cannot fit into any elevator = " + cannotFit);
@@ -59,22 +59,20 @@ public class Algorithms {
 
     // Print out the statistic of the algorithm
     public void getBins() {
+
         // Calculate area wasted by each elevator
-        Double wastedArea = elevators.size() * 2.25;
+        Double wastedArea = elevators.size() * maxArea;
         for (ElevatorBin elevator : elevators) {
             wastedArea -= elevator.getCurrentArea();
         }
-
         System.out.println("Area wasted (m^2) = " + numberFormat.format(wastedArea));
 
         // Calculate load wasted by each elevator
-        Double wastedLoad = elevators.size() * 800.0;
+        Double wastedLoad = elevators.size() * maxLoad;
         for (ElevatorBin elevator : elevators) {
             wastedLoad -= elevator.getCurrentLoad();
         }
-
-        System.out.println("Load wasted (kg)  = " + numberFormat.format(wastedLoad));
-        System.out.println("");
+        System.out.println("Load wasted (kg)  = " + numberFormat.format(wastedLoad) + "\n");
 
         // Print out the detail of each elevator in elevators
         int count = 1;
@@ -101,7 +99,7 @@ public class Algorithms {
         }
     }
 
-    // First Fit Algorithm execution
+    // First Fit Algorithm Execution
     public void firstFit(ElevatorQueue people) {
         // Add the first elevator into elevators
         elevators.add(new ElevatorBin(maxLoad, maxArea));
@@ -143,35 +141,32 @@ public class Algorithms {
                 continue;
             }
 
-            // The available elevators that can accept the person
-            ElevatorArrayList<Integer> available = new ElevatorArrayList<>();
+            // Index of elevator with lowest area left
+            int min = -1;
 
-            // Search for all available elevators
+            // Search for available elevators
             for (int i = 0; i < elevators.size(); i++) {
                 if (elevators.get(i).canHandle(p)) {
-                    available.add(i);
-                }
-            }
+                    if (min == -1) {
+                        min = i;
+                    }
 
-            // Open a new elevator to accept the person if no available elevator can
-            if (available.isEmpty()) {
-                elevators.add(new ElevatorBin(maxLoad, maxArea, p));
-            }
-
-            // Else put the person into the elevator with the least space remaining
-            else {
-                // initial index of available elevators
-                int min = 0;
-
-                // Search for index of available elevators with the least space remaining
-                for (int i = 0; i < available.size(); i++) {
-                    if (elevators.get(available.get(i)).getCurrentLoad() > elevators.get(available.get(min))
-                            .getCurrentLoad()) {
+                    // Index of elevator with lower area left
+                    else if (elevators.get(i).getCurrentArea() > elevators.get(min)
+                    .getCurrentArea()) {
                         min = i;
                     }
                 }
+            }
 
-                elevators.get(available.get(min)).push(p);
+            // Add a new elevator if there is no available elevators
+            if (min == -1) {
+                elevators.add(new ElevatorBin(maxLoad, maxArea, p));
+            }
+
+            // Insert person into elevator with lowest area left
+            else {
+                elevators.get(min).push(p);
             }
         }
     }
@@ -181,7 +176,7 @@ public class Algorithms {
         // Add the first elevator into elevators
         elevators.add(new ElevatorBin(maxLoad, maxArea));
 
-        // Index of the currently used elevator
+        // Index of current elevator
         int current = 0;
 
         for (Person p : people) {
@@ -216,35 +211,33 @@ public class Algorithms {
                 continue;
             }
 
-            // The available elevators that can accept the person
-            ElevatorArrayList<Integer> available = new ElevatorArrayList<>();
-
+            // Index of elevator with highest area left
+            int max = -1;
+            
             // Search for all available elevators
             for (int i = 0; i < elevators.size(); i++) {
                 if (elevators.get(i).canHandle(p)) {
-                    available.add(i);
-                }
-            }
 
-            // Open a new elevator to accept the person if no available elevator can
-            if (available.isEmpty()) {
-                elevators.add(new ElevatorBin(maxLoad, maxArea, p));
-            }
+                    if (max == -1) {
+                        max = i;
+                    }
 
-            // Else put the person into the elevator with the most space remaining
-            else {
-                // initial index of available elevators
-                int max = 0;
-
-                // Search for index of available elevators with the most space remaining
-                for (int i = 0; i < available.size(); i++) {
-                    if (elevators.get(available.get(i)).getCurrentLoad() < elevators.get(available.get(max))
-                            .getCurrentLoad()) {
+                    // Index of elevator with higher area left
+                    else if (elevators.get(i).getCurrentArea() < elevators.get(max)
+                    .getCurrentArea()) {
                         max = i;
                     }
                 }
+            }
 
-                elevators.get(available.get(max)).push(p);
+            // Add a new elevator if there is no available elevator
+            if (max == -1) {
+                elevators.add(new ElevatorBin(maxLoad, maxArea, p));
+            }
+
+            // Insert person into elevator with highest area left
+            else {
+                elevators.get(max).push(p);
             }
         }
     }

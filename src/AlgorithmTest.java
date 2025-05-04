@@ -4,34 +4,39 @@ public class AlgorithmTest {
     public static void main(String[] args) {
         long startTime = 0;
         Scanner input = new Scanner(System.in);
-        boolean running = true;
-
-        // Create a queue of people from the file
-        ElevatorQueue people = new ElevatorQueue();
-
-        // Load the unique people from People.txt
-        people.load("People.txt");
-        System.out.println("There is " + people.getSize() + " unique records in the queue of people.\n");
 
         // Loop until the user decides to exit
-        while (running) {
+        while (true) {
+
+            // Clear console
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+            
+            // Create a queue of people from the file
+            ElevatorQueue people = new ElevatorQueue();
+
+            // Load the unique people from People.txt
+            people.load("People.txt");
+            System.out.println("There is " + people.getSize() + " unique records in the queue of people.\n");
+
             // Get the specification of the elevator from user
             System.out.println("Please enter the specifications of the elevator");
-            System.out.print("Max Elevator Load (kg): ");
 
             // Input for elevator capacity
+            System.out.print("Max Elevator Load (kg): ");
             double elevatorCapacity = 0;
             while (true) {
-                if (input.hasNextDouble()) {
-                    elevatorCapacity = input.nextDouble();
+                try {
+                    elevatorCapacity = Double.parseDouble(input.nextLine());
                     if (elevatorCapacity > 0) {
                         break;
-                    } else {
+                    }
+                    else {
                         System.out.print("Please enter a positive number: ");
                     }
-                } else {
+                }
+                catch (NumberFormatException e)  {
                     System.out.print("Please enter a valid number: ");
-                    input.next();
                 }
             }
 
@@ -39,17 +44,18 @@ public class AlgorithmTest {
             System.out.print("Max Elevator Area (m^2): ");
             double elevatorArea = 0;
             while (true) {
-                if (input.hasNextDouble()) {
-                    elevatorArea = input.nextDouble();
+                try {
+                    elevatorArea = Double.parseDouble(input.nextLine());
                     if (elevatorArea > 0) {
                         System.out.println("");
                         break;
-                    } else {
+                    }
+                    else {
                         System.out.print("Please enter a positive number: ");
                     }
-                } else {
+                }
+                catch (NumberFormatException e) {
                     System.out.print("Please enter a valid number: ");
-                    input.next();
                 }
             }
 
@@ -58,26 +64,25 @@ public class AlgorithmTest {
             System.out.println(
                     "1. First Fit\n2. Best Fit\n3. Next Fit\n4. Worst Fit\n5. All Algorithms");
             System.out.print("Algorithm (1-5): ");
-
             int algoChoice = 0;
             while (true) {
-                if (input.hasNextInt()) {
-                    algoChoice = input.nextInt();
+                try {
+                    algoChoice = Integer.parseInt(input.nextLine());
                     if (algoChoice >= 1 && algoChoice <= 5) {
                         System.out.println("");
                         break;
-                    } else {
+                    }
+                    else {
                         System.out.print("Please enter a number between 1 and 5: ");
                     }
-                } else {
+                }
+                catch (NumberFormatException e) {
                     System.out.print("Please enter a valid number: ");
-                    input.next();
                 }
             }
 
             // Executing the selected algorithm
             String[] algoSelected = null;
-
             switch (algoChoice) {
                 case 1:
                     algoSelected = new String[] { "First Fit" };
@@ -119,7 +124,7 @@ public class AlgorithmTest {
 
                 String choice = "";
                 while (true) {
-                    choice = input.next().toLowerCase();
+                    choice = input.nextLine().toLowerCase();
                     if (choice.equals("y") || choice.equals("n")) {
                         System.out.println("");
                         break;
@@ -139,7 +144,7 @@ public class AlgorithmTest {
 
             String continueChoice = "";
             while (true) {
-                continueChoice = input.next().toLowerCase();
+                continueChoice = input.nextLine().toLowerCase();
                 if (continueChoice.equals("y") || continueChoice.equals("n")) {
                     System.out.println("");
                     break;
@@ -149,10 +154,7 @@ public class AlgorithmTest {
             }
 
             if (continueChoice.equals("n")) {
-                running = false;
-            } else {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
+                break;
             }
         }
 
