@@ -28,7 +28,7 @@ public class PersonGenerator {
                 writer.write("\n" + numberFormat.format(area) + " " + numberFormat.format(weight));
             }
 
-            System.out.println("100000 records of unique person has been created successfully");
+            System.out.println(people.size() + " records of unique person has been created successfully");
 
             writer.close();
 

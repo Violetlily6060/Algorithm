@@ -217,7 +217,6 @@ public class Algorithms {
             // Search for all available elevators
             for (int i = 0; i < elevators.size(); i++) {
                 if (elevators.get(i).canHandle(p)) {
-
                     if (max == -1) {
                         max = i;
                     }
